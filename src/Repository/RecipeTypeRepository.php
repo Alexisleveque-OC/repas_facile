@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\TypeRecipe;
+use App\Entity\RecipeType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method TypeRecipe|null find($id, $lockMode = null, $lockVersion = null)
- * @method TypeRecipe|null findOneBy(array $criteria, array $orderBy = null)
- * @method TypeRecipe[]    findAll()
- * @method TypeRecipe[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RecipeType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RecipeType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RecipeType[]    findAll()
+ * @method RecipeType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TypeRecipeRepository extends ServiceEntityRepository
+class RecipeTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TypeRecipe::class);
+        parent::__construct($registry, RecipeType::class);
     }
 
     // /**
-    //  * @return TypeRecipe[] Returns an array of TypeRecipe objects
+    //  * @return RecipeType[] Returns an array of RecipeType objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TypeRecipeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TypeRecipe
+    public function findOneBySomeField($value): ?RecipeType
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

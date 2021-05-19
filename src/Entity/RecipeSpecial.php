@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=SpecialRecipeRepository::class)
  */
-class SpecialRecipe
+class RecipeSpecial
 {
     /**
      * @ORM\Id

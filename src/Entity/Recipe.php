@@ -40,14 +40,14 @@ class Recipe
     private $favoriteRecipes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=SpecialRecipe::class, mappedBy="recipe")
+     * @ORM\ManyToMany(targetEntity=RecipeSpecial::class, mappedBy="recipe")
      */
-    private $specialRecipes;
+    private $recipeSpecials;
 
     /**
-     * @ORM\ManyToMany(targetEntity=TypeRecipe::class, mappedBy="Recipe")
+     * @ORM\ManyToMany(targetEntity=RecipeType::class, mappedBy="Recipe")
      */
-    private $typeRecipes;
+    private $recipeTypes;
 
     /**
      * @ORM\OneToMany(targetEntity=RecipeLine::class, mappedBy="recipe")
@@ -57,8 +57,8 @@ class Recipe
     public function __construct()
     {
         $this->favoriteRecipes = new ArrayCollection();
-        $this->specialRecipes = new ArrayCollection();
-        $this->typeRecipes = new ArrayCollection();
+        $this->recipeSpecials = new ArrayCollection();
+        $this->recipeTypes = new ArrayCollection();
         $this->recipeLines = new ArrayCollection();
     }
 
@@ -135,54 +135,54 @@ class Recipe
     }
 
     /**
-     * @return Collection|SpecialRecipe[]
+     * @return Collection|RecipeSpecial[]
      */
-    public function getSpecialRecipes(): Collection
+    public function getRecipeSpecials(): Collection
     {
-        return $this->specialRecipes;
+        return $this->recipeSpecials;
     }
 
-    public function addSpecialRecipe(SpecialRecipe $specialRecipe): self
+    public function addRecipeSpecial(RecipeSpecial $recipeSpecial): self
     {
-        if (!$this->specialRecipes->contains($specialRecipe)) {
-            $this->specialRecipes[] = $specialRecipe;
-            $specialRecipe->addRecipe($this);
+        if (!$this->recipeSpecials->contains($recipeSpecial)) {
+            $this->recipeSpecials[] = $recipeSpecial;
+            $recipeSpecial->addRecipe($this);
         }
 
         return $this;
     }
 
-    public function removeSpecialRecipe(SpecialRecipe $specialRecipe): self
+    public function removeRecipeSpecial(RecipeSpecial $recipeSpecial): self
     {
-        if ($this->specialRecipes->removeElement($specialRecipe)) {
-            $specialRecipe->removeRecipe($this);
+        if ($this->recipeSpecials->removeElement($recipeSpecial)) {
+            $recipeSpecial->removeRecipe($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection|TypeRecipe[]
+     * @return Collection|RecipeType[]
      */
-    public function getTypeRecipes(): Collection
+    public function getRecipeTypes(): Collection
     {
-        return $this->typeRecipes;
+        return $this->recipeTypes;
     }
 
-    public function addTypeRecipe(TypeRecipe $typeRecipe): self
+    public function addRecipeType(RecipeType $recipeType): self
     {
-        if (!$this->typeRecipes->contains($typeRecipe)) {
-            $this->typeRecipes[] = $typeRecipe;
-            $typeRecipe->addRecipe($this);
+        if (!$this->recipeTypes->contains($recipeType)) {
+            $this->recipeTypes[] = $recipeType;
+            $recipeType->addRecipe($this);
         }
 
         return $this;
     }
 
-    public function removeTypeRecipe(TypeRecipe $typeRecipe): self
+    public function removeRecipeType(RecipeType $recipeType): self
     {
-        if ($this->typeRecipes->removeElement($typeRecipe)) {
-            $typeRecipe->removeRecipe($this);
+        if ($this->recipeTypes->removeElement($recipeType)) {
+            $recipeType->removeRecipe($this);
         }
 
         return $this;

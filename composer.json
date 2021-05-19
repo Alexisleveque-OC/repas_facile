@@ -78,7 +78,8 @@
         "prepare": [
             "php bin/console d:d:drop --if-exists -f",
             "php bin/console d:d:create ",
-            "php bin/console d:s:update -f"
+            "php bin/console d:s:update -f",
+            "php bin/console d:fixtures:load --group=Enumeration -n"
         ],
         "initialize": [
             "php bin/console d:d:create ",

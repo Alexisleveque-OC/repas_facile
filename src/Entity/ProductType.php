@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductTypeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -23,9 +25,15 @@ class ProductType
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="productTypes")
+     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="type")
      */
-    private $Product;
+    private $products;
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -44,15 +52,34 @@ class ProductType
         return $this;
     }
 
-    public function getProduct(): ?Product
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts(): Collection
     {
-        return $this->Product;
+        return $this->products;
     }
 
-    public function setProduct(?Product $Product): self
+    public function addProduct(Product $product): self
     {
-        $this->Product = $Product;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
+            $product->setType($this);
+        }
 
         return $this;
     }
+
+    public function removeProduct(Product $product): self
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getType() === $this) {
+                $product->setType(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
