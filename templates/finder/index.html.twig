@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FinderController!{% endblock %}
+
+{% block body %}
+    <ul>
+        {% for month in months %}
+            <li>{{ month.name }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -29,13 +29,9 @@ class Product
      */
     private $description;
 
-    /**
-     * @ORM\OneToMany(targetEntity=ProductType::class, mappedBy="Product")
-     */
-    private $productTypes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Month::class, mappedBy="Product")
+     * @ORM\ManyToMany(targetEntity=Month::class, mappedBy="Product",cascade={"persist"})
      */
     private $months;
 
@@ -45,10 +41,16 @@ class Product
     private $recipeLines;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MesureType::class, inversedBy="Product")
+     * @ORM\ManyToOne(targetEntity=MesureType::class, inversedBy="Product",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $mesureType;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ProductType::class, inversedBy="products",cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $type;
 
     public function __construct()
     {
@@ -92,28 +94,6 @@ class Product
     public function getProductTypes(): Collection
     {
         return $this->productTypes;
-    }
-
-    public function addProductType(ProductType $productType): self
-    {
-        if (!$this->productTypes->contains($productType)) {
-            $this->productTypes[] = $productType;
-            $productType->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductType(ProductType $productType): self
-    {
-        if ($this->productTypes->removeElement($productType)) {
-            // set the owning side to null (unless already changed)
-            if ($productType->getProduct() === $this) {
-                $productType->setProduct(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
@@ -181,6 +161,18 @@ class Product
     public function setMesureType(?MesureType $mesureType): self
     {
         $this->mesureType = $mesureType;
+
+        return $this;
+    }
+
+    public function getType(): ?ProductType
+    {
+        return $this->type;
+    }
+
+    public function setType(?ProductType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

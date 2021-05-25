@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\SpecialRecipe;
+use App\Entity\RecipeSpecial;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method SpecialRecipe|null find($id, $lockMode = null, $lockVersion = null)
- * @method SpecialRecipe|null findOneBy(array $criteria, array $orderBy = null)
- * @method SpecialRecipe[]    findAll()
- * @method SpecialRecipe[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RecipeSpecial|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RecipeSpecial|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RecipeSpecial[]    findAll()
+ * @method RecipeSpecial[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SpecialRecipeRepository extends ServiceEntityRepository
+class RecipeSpecialRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, SpecialRecipe::class);
+        parent::__construct($registry, RecipeSpecial::class);
     }
 
     // /**
-    //  * @return SpecialRecipe[] Returns an array of SpecialRecipe objects
+    //  * @return RecipeSpecial[] Returns an array of RecipeSpecial objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class SpecialRecipeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?SpecialRecipe
+    public function findOneBySomeField($value): ?RecipeSpecial
     {
         return $this->createQueryBuilder('s')
             ->andWhere('s.exampleField = :val')

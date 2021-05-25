@@ -75,14 +75,18 @@
         "symfony/polyfill-php72": "*"
     },
     "scripts": {
+        "initialize": [
+            "php bin/console d:d:drop --if-exists -f",
+            "php bin/console d:d:create ",
+            "php bin/console d:s:update -f",
+            "php bin/console d:fixtures:load --group=Enumeration -n"
+        ],
         "prepare": [
             "php bin/console d:d:drop --if-exists -f",
             "php bin/console d:d:create ",
-            "php bin/console d:s:update -f"
-        ],
-        "initialize": [
-            "php bin/console d:d:create ",
-            "php bin/console d:s:update -f"
+            "php bin/console d:s:update -f",
+            "php bin/console d:fixtures:load --group=Enumeration -n",
+            "php bin/console d:fixtures:load --group=Data -n"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
