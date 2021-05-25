@@ -5,16 +5,24 @@ namespace App\DataFixtures;
 use App\Entity\MesureType;
 use App\Entity\Moment;
 use App\Entity\Month;
+use App\Entity\Product;
 use App\Entity\ProductType;
 use App\Entity\RecipeSpecial;
 use App\Entity\RecipeType;
+use App\Entity\User;
+use App\Repository\MesureTypeRepository;
+use App\Repository\MomentRepository;
+use App\Repository\MonthRepository;
+use App\Repository\ProductTypeRepository;
+use App\Repository\RecipeSpecialRepository;
+use App\Repository\RecipeTypeRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class Enumeration extends Fixture
+class Enumeration extends Fixture implements FixtureGroupInterface
 {
     //complete base enum for each tab
-
     public function load(ObjectManager $manager)
     {
         $tabTypeRecipe = [
@@ -110,5 +118,10 @@ class Enumeration extends Fixture
         }
 
         $manager->flush();
+    }
+
+    public static function getGroups(): array
+    {
+        return ['Enumeration'];
     }
 }

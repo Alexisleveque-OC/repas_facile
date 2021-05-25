@@ -36,7 +36,7 @@ class DayMenu
     private $Recipe;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Moment::class, inversedBy="DayMenu")
+     * @ORM\ManyToOne(targetEntity=Moment::class, inversedBy="DayMenu", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $moment;

@@ -31,7 +31,7 @@ class Product
 
 
     /**
-     * @ORM\ManyToMany(targetEntity=Month::class, mappedBy="Product")
+     * @ORM\ManyToMany(targetEntity=Month::class, mappedBy="Product",cascade={"persist"})
      */
     private $months;
 
@@ -41,13 +41,13 @@ class Product
     private $recipeLines;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MesureType::class, inversedBy="Product")
+     * @ORM\ManyToOne(targetEntity=MesureType::class, inversedBy="Product",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $mesureType;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ProductType::class, inversedBy="products")
+     * @ORM\ManyToOne(targetEntity=ProductType::class, inversedBy="products",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $type;

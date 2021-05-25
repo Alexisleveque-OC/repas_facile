@@ -54,6 +54,11 @@ class User
      */
     private $weekMenus;
 
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles = [];
+
     public function __construct()
     {
         $this->recipes = new ArrayCollection();
@@ -200,6 +205,18 @@ class User
                 $weekMenu->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
 
         return $this;
     }

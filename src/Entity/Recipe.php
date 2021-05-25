@@ -30,7 +30,7 @@ class Recipe
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recipes",cascade={"persist"})
      */
     private $creator;
 
@@ -40,12 +40,12 @@ class Recipe
     private $favoriteRecipes;
 
     /**
-     * @ORM\ManyToMany(targetEntity=RecipeSpecial::class, mappedBy="recipe")
+     * @ORM\ManyToMany(targetEntity=RecipeSpecial::class, mappedBy="recipe",cascade={"persist"})
      */
     private $recipeSpecials;
 
     /**
-     * @ORM\ManyToMany(targetEntity=RecipeType::class, mappedBy="Recipe")
+     * @ORM\ManyToMany(targetEntity=RecipeType::class, mappedBy="Recipe",cascade={"persist"})
      */
     private $recipeTypes;
 
