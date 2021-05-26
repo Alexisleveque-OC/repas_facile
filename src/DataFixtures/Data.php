@@ -14,16 +14,11 @@ use App\Entity\RecipeLine;
 use App\Entity\ShoppingList;
 use App\Entity\User;
 use App\Entity\WeekMenu;
-use App\Repository\MesureTypeRepository;
-use App\Repository\MomentRepository;
-use App\Repository\MonthRepository;
-use App\Repository\ProductTypeRepository;
-use App\Repository\RecipeSpecialRepository;
-use App\Repository\RecipeTypeRepository;
 use App\Service\Finder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\EncoderInterface;
 
 class Data extends Fixture
 {
@@ -34,15 +29,12 @@ class Data extends Fixture
     public $momentRepo;
     public $recipeSpecialRepo;
     public $recipeTypeRepo;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    public $encoder;
 
-    //    private $container;
-    //
-    //    public function setContainer(ContainerInterface $container)
-    //    {
-    //
-    //    }
-
-    public function __construct(Finder $finder)
+    public function __construct(Finder $finder, UserPasswordEncoderInterface $encoder)
     {
         $this->monthRepo         = $finder->findMonth();
         $this->mesureRepo        = $finder->findMesureTypes();
@@ -50,18 +42,11 @@ class Data extends Fixture
         $this->momentRepo        = $finder->findMoments();
         $this->recipeSpecialRepo = $finder->findRecipesSpecials();
         $this->recipeTypeRepo    = $finder->findRecipeTypes();
+        $this->encoder = $encoder;
     }
 
     public function load(ObjectManager $manager)
     {
-        //        $productTypes   = $this->productTypeRepo;
-        //        $months         = $this->monthRepo;
-        //        $mesureTypes    = $this->mesureRepo;
-        //        $recipeTypes    = $this->recipeTypeRepo;
-        //        $recipeSpecials = $this->recipeSpecialRepo;
-        //        $moments        = $this->momentRepo;
-
-
         $users    = [];
         $products = [];
         $recipes  = [];
@@ -69,7 +54,7 @@ class Data extends Fixture
 
         $user = new User();
         $user->setUsername("admin")
-            ->setPassword('admin')
+            ->setPassword($this->encoder->encodePassword($user,'admin'))
             ->setCreatedAt(new \DateTime())
             ->setEmail("admin@admin.com")
             ->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
