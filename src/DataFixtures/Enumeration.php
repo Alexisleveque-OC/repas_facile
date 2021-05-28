@@ -85,8 +85,8 @@ class Enumeration extends Fixture implements FixtureGroupInterface
         ];
 
         foreach ($tabMonth as $monthName){
-            $month = new Month();
-            $month->setName($monthName);
+            $month = new Month($monthName);
+//            $month->setName($monthName);
             $manager->persist($month);
         }
 

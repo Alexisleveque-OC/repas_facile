@@ -42,7 +42,7 @@ class Data extends Fixture
         $this->momentRepo        = $finder->findMoments();
         $this->recipeSpecialRepo = $finder->findRecipesSpecials();
         $this->recipeTypeRepo    = $finder->findRecipeTypes();
-        $this->encoder = $encoder;
+        $this->encoder           = $encoder;
     }
 
     public function load(ObjectManager $manager)
@@ -54,7 +54,7 @@ class Data extends Fixture
 
         $user = new User();
         $user->setUsername("admin")
-            ->setPassword($this->encoder->encodePassword($user,'admin'))
+            ->setPassword($this->encoder->encodePassword($user, 'admin'))
             ->setCreatedAt(new \DateTime())
             ->setEmail("admin@admin.com")
             ->setRoles(['ROLE_ADMIN', 'ROLE_USER']);
@@ -78,15 +78,43 @@ class Data extends Fixture
                 /** @var MesureType $mesureType * */
                 $mesureType = $this->getRandomObject('mesure');
 
-                /** @var Month $month */
-                $month = $this->getRandomObject('month');
+                /** @var Month $monthBegin */
+                $monthBegin = $this->getRandomObject('month');
+                /** @var Month $monthEnd */
+                $monthEnd = $this->getRandomObject('month');
 
                 $product = new Product();
                 $product->setTitle(sprintf($productType->getName() . '%s', $j))
                     ->setDescription("Ceci est le {$productType->getName()} numéro $j")
                     ->setMesureType($mesureType)
-                    ->addMonth($month)
+                    ->setMonthBegin($monthBegin->getNumber())
+                    ->setMonthEnd($monthEnd->getNumber())
                     ->setType($productType);
+
+                $months = [];
+
+                if ($monthBegin->getNumber() > $monthEnd->getNumber()) {
+                    for ($i = $monthBegin->getNumber(); $i <= 12; $i++) {
+                        $month    = $this->monthRepo[$i - 1];
+                        $months[] = $month;
+                    }
+                    for ($i = 1; $i <= $monthEnd->getNumber(); $i++) {
+                        $month    = $this->monthRepo[$i - 1];
+                        $months[] = $month;
+                    }
+                } elseif ($monthBegin->getNumber() < $monthEnd->getNumber()) {
+                    for ($i = $monthBegin->getNumber(); $i <= $monthEnd->getNumber(); $i++) {
+                        $month    = $this->monthRepo[$i - 1];
+                        $months[] = $month;
+                    }
+                } elseif ($monthBegin->getNumber() === null || $monthEnd->getNumber() === null) {
+                    $months[] = $monthBegin->getNumber() ?? $monthEnd->getNumber();
+                } elseif ($monthBegin->getNumber() === $monthEnd->getNumber()) {
+                    $months[] = $monthBegin;
+                }
+                foreach ($months as $month) {
+                    $product->addMonth($month);
+                }
 
                 $manager->persist($product);
 
@@ -168,7 +196,7 @@ class Data extends Fixture
             $lineShopping = new LineShopping();
             $lineShopping->setShoppingList($shoppingList)
                 ->setQuantity(mt_rand(1, 100))
-                ->setProduct($products[mt_rand( 0, count($products) - 1)]);
+                ->setProduct($products[mt_rand(0, count($products) - 1)]);
 
             $manager->persist($lineShopping);
         }

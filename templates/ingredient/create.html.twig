@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Création de produit
+{% endblock %}
+
+{% block body %}
+    {{ form_start(formProduct) }}
+    {{ form_row(formProduct.title) }}
+    {{ form_row(formProduct.description) }}
+    <div class="row">
+        <div class="col-6">
+            {{ form_row(formProduct.month_begin) }}
+        </div>
+        <div class="col-6">
+            {{ form_row(formProduct.month_end) }}
+        </div>
+    </div>
+        {{ form_row(formProduct.mesureType) }}
+    {{ form_row(formProduct.type) }}
+    <button class="btn btn-primary" type="submit">Création</button>
+    {{ form_end(formProduct) }}
+{% endblock %}
+{% block javascripts %}
+    <script>
+      $(document).ready(function() {
+        // you may need to change this code if you are not using Bootstrap Datepicker
+        $('.js-datepicker').datepicker({
+          format: 'yyyy-mm-dd'
+        });
+      });
+    </script>
+{% endblock %}

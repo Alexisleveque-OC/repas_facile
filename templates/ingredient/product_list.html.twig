@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Ingrédients{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>Liste des ingrédients</h1>
+        {% if is_granted('PRODUCT_CREATE') %}
+        <div class="col2">
+            <a href="{{ path('product_create') }}" class="btn btn-success">Créer un nouvel ingrédient</a>
+        </div>
+        {% endif %}
+
+        {% for type in types %}
+            <table class="table">
+                <h4>{{ type.name }}</h4>
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Mois de consommation</th>
+                    <th scope="col">Type de mesure</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product in type.products %}
+                <tr>
+                    <th scope="row">{{ product.title }}</th>
+                    <th>{{ product.description }}</th>
+                    <th>{% for month in product.months %}{{ month.name }},{% endfor %}</th>
+                    <th>{{ product.mesureType.name }}</th>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% endfor %}
+    </div>
+{% endblock %}
