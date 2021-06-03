@@ -5,8 +5,6 @@ namespace App\Service\Product;
 use App\Entity\Month;
 use App\Entity\Product;
 use App\Repository\MonthRepository;
-use App\Repository\ProductRepository;
-use App\Repository\ProductTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CreateProductService
@@ -30,10 +28,12 @@ class CreateProductService
     {
         $monthBegin = $this->transformStringToMonth($product->getMonthBegin());
         $monthEnd   = $this->transformStringToMonth($product->getMonthEnd());
-        $months = $this->getMonths($monthBegin, $monthEnd);
+        $months     = $this->getMonths($monthBegin, $monthEnd);
 
-        foreach ($months as $month) {
-            $product->addMonth($month);
+        if ($months) {
+            foreach ($months as $month) {
+                $product->addMonth($month);
+            }
         }
 
         $this->manager->persist($product);
@@ -42,28 +42,34 @@ class CreateProductService
         return $product;
     }
 
-    private function transformStringToMonth(string $monthName): Month
+    private function transformStringToMonth(string $monthName = null): ?Month
     {
-        return $this->monthRepository->findOneBy(['name' => $monthName]);
+        if ($monthName) {
+            return $this->monthRepository->findOneBy(['name' => $monthName]);
+        }
+
+        return null;
     }
 
-    private function getMonths(Month $monthBegin, Month $monthEnd)
+    private function getMonths(Month $monthBegin = null, Month $monthEnd = null)
     {
-//        dd($monthBegin,$monthEnd);
+        if (!$monthBegin && !$monthEnd) {
+            return null;
+        }
         $months = [];
 
         if ($monthBegin->getNumber() > $monthEnd->getNumber()) {
             for ($i = $monthBegin->getNumber(); $i <= 12; $i++) {
-                $month    = $this->monthRepository->findOneBy(['number' => $i - 1 ]);
+                $month    = $this->monthRepository->findOneBy(['number' => $i]);
                 $months[] = $month;
             }
             for ($i = 1; $i <= $monthEnd->getNumber(); $i++) {
-                $month    = $this->monthRepository->findOneBy(['number' => $i - 1 ]);
+                $month    = $this->monthRepository->findOneBy(['number' => $i ]);
                 $months[] = $month;
             }
         } elseif ($monthBegin->getNumber() < $monthEnd->getNumber()) {
             for ($i = $monthBegin->getNumber(); $i <= $monthEnd->getNumber(); $i++) {
-                $month    = $this->monthRepository->findOneBy(['number' => $i ]);
+                $month    = $this->monthRepository->findOneBy(['number' => $i]);
                 $months[] = $month;
             }
         } elseif ($monthBegin->getNumber() === null || $monthEnd->getNumber() === null) {

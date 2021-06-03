@@ -5,29 +5,74 @@
 {% endblock %}
 
 {% block body %}
+{% if new is not empty %}
+    <h1>
+        tata
+    </h1>
+{% endif %}
+    {% if product %}
+        <table class="table">
+            <h4>Dernier produit crée</h4>
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Description</th>
+                <th scope="col">Mois de consommation</th>
+                <th scope="col">Type de mesure</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">{{ product.title }}</th>
+                <th>{{ product.description }}</th>
+                <th>
+                    {% if product.months|length == 1 %}
+                        {% for month in product.months %}
+                            Ce produit peut être consomme au mois de {{ month.name }}
+                        {% endfor %}
+                    {% elseif product.months|length == 0 %}
+                        Ce produit peut-être consommé toute l'année
+                    {% else %}
+                        {% for month in product.months %}
+                            {% if loop.first %}
+                                Consommable du mois de {{ month.name }}
+                            {% endif %}
+                            {% if loop.last %}
+                                jusqu'au mois de {{ month.name }}.
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </th>
+                <th>{{ product.mesureType.name }}</th>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
     {{ form_start(formProduct) }}
     {{ form_row(formProduct.title) }}
-    {{ form_row(formProduct.description) }}
-    <div class="row">
-        <div class="col-6">
-            {{ form_row(formProduct.month_begin) }}
-        </div>
-        <div class="col-6">
-            {{ form_row(formProduct.month_end) }}
-        </div>
+<hr>
+{{ form_row(formProduct.description) }}
+<hr>
+<div class="row">
+    <div class="col-6">
+        {{ form_row(formProduct.month_begin) }}
     </div>
-        {{ form_row(formProduct.mesureType) }}
-    {{ form_row(formProduct.type) }}
-    <button class="btn btn-primary" type="submit">Création</button>
+    <div class="col-6">
+        {{ form_row(formProduct.month_end) }}
+    </div>
+    <p>Laissez ces champs blanc si le produit est consommable toute l'année</p>
+</div>
+<hr>
+{{ form_row(formProduct.mesureType) }}
+<hr>
+{{ form_row(formProduct.type) }}
+<hr>
+<div class="row">
+    <div class="col-6">
+        {{ form_row(formProduct.create) }}
+    </div>
+    <div class="col-6">
+        {{ form_row(formProduct.createAndAdd) }}
+    </div>
     {{ form_end(formProduct) }}
-{% endblock %}
-{% block javascripts %}
-    <script>
-      $(document).ready(function() {
-        // you may need to change this code if you are not using Bootstrap Datepicker
-        $('.js-datepicker').datepicker({
-          format: 'yyyy-mm-dd'
-        });
-      });
-    </script>
-{% endblock %}
+    {% endblock %}

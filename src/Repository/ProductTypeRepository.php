@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ProductType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -22,6 +23,7 @@ class ProductTypeRepository extends ServiceEntityRepository
     public function findAllProductType()
     {
         $qb = $this->getBaseQueryBuilder();
+
         return $qb->getQuery()->getResult();
     }
 
@@ -30,4 +32,6 @@ class ProductTypeRepository extends ServiceEntityRepository
         return $this->createQueryBuilder("pt")
             ->select('product_type');
     }
+
+
 }

@@ -32,4 +32,9 @@ class FinderProductService
     {
         return $this->productTypeRepository->findAll();
     }
+
+    public function findOneById($product_id)
+    {
+        return $this->productRepository->findOneById($product_id);
+    }
 }

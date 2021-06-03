@@ -10,10 +10,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Sodium\add;
 
 class ProductType extends AbstractType
 {
@@ -93,7 +96,21 @@ class ProductType extends AbstractType
                     'class'        => \App\Entity\ProductType::class,
                     'choice_label' => 'name',
                 ]
-            );
+            )
+            ->add('create', SubmitType::class , [
+                'label' => 'Enregistrer',
+                'attr' => [
+                    "class" => 'btn btn-primary'
+                ]
+            ])
+
+            ->add('createAndAdd', SubmitType::class , [
+                'label' => 'Enregistrer et créer un nouvel ingrédient',
+                'attr' => [
+                    "class" => 'btn btn-secondary'
+                ]
+            ]);;
+
     }
 
     public function configureOptions(OptionsResolver $resolver)
