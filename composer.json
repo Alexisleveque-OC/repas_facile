@@ -86,7 +86,7 @@
             "php bin/console d:d:create ",
             "php bin/console d:s:update -f",
             "php bin/console d:fixtures:load --group=Enumeration -n",
-            "php bin/console d:fixtures:load --group=Data -n"
+            "php bin/console d:fixtures:load --group=Data -n --append"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",

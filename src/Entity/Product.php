@@ -52,6 +52,16 @@ class Product
      */
     private $type;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $monthBegin;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $monthEnd;
+
     public function __construct()
     {
         $this->productTypes = new ArrayCollection();
@@ -173,6 +183,30 @@ class Product
     public function setType(?ProductType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getMonthBegin(): ?string
+    {
+        return $this->monthBegin;
+    }
+
+    public function setMonthBegin(?string $monthBegin): self
+    {
+        $this->monthBegin = $monthBegin;
+
+        return $this;
+    }
+
+    public function getMonthEnd(): ?string
+    {
+        return $this->monthEnd;
+    }
+
+    public function setMonthEnd(?string $monthEnd): self
+    {
+        $this->monthEnd = $monthEnd;
 
         return $this;
     }

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +20,30 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllProduct()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->getBaseQueryBuilder();
+        return $qb->getQuery()->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Product
+    public function findOneById(int $product_id)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $qb = $this->getBaseQueryBuilder();
+        self::addIdClause($qb, $product_id);
+//dd($qb->getQuery());
+        return $qb->getQuery()
+            ->getOneOrNullResult();
     }
-    */
+
+    protected function getBaseQueryBuilder()
+    {
+        return $this->createQueryBuilder("p")
+            ->select('p');
+    }
+
+    protected static function addIdClause(QueryBuilder $qb, int $product_id)
+    {
+        return $qb->andWhere("p.id = :product_id")
+            ->setParameter('product_id', $product_id);
+    }
 }

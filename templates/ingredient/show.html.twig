@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if is_granted('PRODUCT_CREATE') %}
+        <div class="col2">
+            <a href="{{ path('product_create') }}" class="btn btn-success">Créer un nouvel ingrédient</a>
+        </div>
+    {% endif %}
+    <table class="table">
+        <h4>Dernier produit crée</h4>
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Description</th>
+            <th scope="col">Mois de consommation</th>
+            <th scope="col">Type de mesure</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">{{ product.title }}</th>
+            <th>{{ product.description }}</th>
+            <th>
+                {% if product.months|length == 1 %}
+                    {% for month in product.months %}
+                        Ce produit peut être consomme au mois de {{ month.name }}
+                    {% endfor %}
+                {% elseif product.months|length == 0 %}
+                    Ce produit peut-être consommé toute l'année
+                {% else %}
+                    {% for month in product.months %}
+                        {% if loop.first %}
+                            Consommable du mois de {{ month.name }}
+                        {% endif %}
+                        {% if loop.last %}
+                            jusqu'au mois de {{ month.name }}.
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </th>
+            <th>{{ product.mesureType.name }}</th>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block title %}
+Détail de l'ingrédient {{ product.title }}
+{% endblock %}
+

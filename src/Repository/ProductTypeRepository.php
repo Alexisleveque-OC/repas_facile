@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\ProductType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +20,18 @@ class ProductTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductType::class);
     }
 
-    // /**
-    //  * @return ProductType[] Returns an array of ProductType objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findAllProductType()
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->getBaseQueryBuilder();
 
-    /*
-    public function findOneBySomeField($value): ?ProductType
-    {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $qb->getQuery()->getResult();
     }
-    */
+
+    protected function getBaseQueryBuilder()
+    {
+        return $this->createQueryBuilder("pt")
+            ->select('product_type');
+    }
+
+
 }

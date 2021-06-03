@@ -29,9 +29,54 @@ class Month
      */
     private $Product;
 
-    public function __construct()
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $number;
+
+
+    public function __construct(string $name)
     {
         $this->Product = new ArrayCollection();
+        $this->setName($name);
+        switch ($name) {
+            case 'Janvier':
+                $this->setNumber(1);
+                break;
+            case 'Février':
+                $this->setNumber(2);
+                break;
+            case 'Mars':
+                $this->setNumber(3);
+                break;
+            case 'Avril':
+                $this->setNumber(4);
+                break;
+            case 'Mai':
+                $this->setNumber(5);
+                break;
+            case 'Juin':
+                $this->setNumber(6);
+                break;
+            case 'Juillet':
+                $this->setNumber(7);
+                break;
+            case 'Août':
+                $this->setNumber(8);
+                break;
+            case 'Septembre':
+                $this->setNumber(9);
+                break;
+            case 'Octobre':
+                $this->setNumber(10);
+                break;
+            case 'Novembre':
+                $this->setNumber(11);
+                break;
+            case 'Décembre':
+                $this->setNumber(12);
+                break;
+        }
     }
 
     public function getId(): ?int
@@ -74,4 +119,17 @@ class Month
 
         return $this;
     }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(?int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
 }
